@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CA1816: Dispose methods should call SuppressFinalize
+dotnet_diagnostic.CA1816.severity = none
+
+# IDE0022: Use block body for methods
+csharp_style_expression_bodied_methods = when_on_single_line

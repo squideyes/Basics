@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>SquidEyes.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>SquidEyes.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <Company>SquidEyes, LLC</Company>
+    <Copyright>Copyright 2021 by SquidEyes, LLC</Copyright>
+    <Description>A collection of basic helper classes and models</Description>
+    <Authors>Louis S. Berman</Authors>
+    <PackageTags>helper;utility;extension;linq;productivity;generic;c#</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>
