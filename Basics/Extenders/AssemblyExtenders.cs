@@ -29,11 +29,11 @@ public static class AssemblyExtenders
     {
         T? result = default;
 
-        var configAttributes = Attribute.
-            GetCustomAttributes(assembly, typeof(T), false);
+        var attribs = Attribute.GetCustomAttributes(
+            assembly, typeof(T), false);
 
-        if (!configAttributes.IsNullOrEmpty())
-            result = (T)configAttributes[0];
+        if (attribs != null && attribs.Any())
+            result = (T)attribs[0];
 
         return result;
     }

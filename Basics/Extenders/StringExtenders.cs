@@ -99,7 +99,7 @@ public static class StringExtenders
         Func<T, string>? getValue = null,
         string delimiter = ", ", string finalDelimiter = " or ")
     {
-        if (!items.HasNonDefaultItems())
+        if (!items.HasItems())
             throw new ArgumentOutOfRangeException(nameof(items));
 
         if (delimiter == null)
@@ -289,6 +289,29 @@ public static class StringExtenders
             lines.Add(text.Substring(start));
 
         return lines;
+    }
+
+    public static HashSet<T> ToHashSetOf<T>(
+        this string value, Func<string, T> getValue)
+    {
+        return new HashSet<T>(value.ToListOf(getValue));
+    }
+
+    public static List<T> ToListOf<T>(
+        this string value, Func<string, T> getValue)
+    {
+        var items = new List<T>();
+
+        if (!value.IsEmptyOrWhitespace())
+        {
+            foreach (var item in value.Split(','))
+            {
+                if (!item.IsEmptyOrWhitespace())
+                    items.Add(getValue(item));
+            }
+        }
+
+        return items;
     }
 
     public static bool InChars(this string value, string chars) =>

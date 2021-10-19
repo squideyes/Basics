@@ -66,7 +66,7 @@ namespace SquidEyes.UnitTests
         }
 
         private static List<int> ParseChoices(string choices) =>
-            choices.Split(',').Select(c => int.Parse(c)).ToList();
+            choices.ToListOf(v => int.Parse(v));
 
         [Theory]
         [InlineData("1,2,3", 2, true)]
@@ -125,7 +125,7 @@ namespace SquidEyes.UnitTests
 
         [Fact]
         public void ValidatedWithGoodValueShouldReturnConvertedValue() =>
-            2.Validated("Code", v => v == 2, v=> v.ToString()).Should().Be("2");
+            2.Validated("Code", v => v == 2, v => v.ToString()).Should().Be("2");
 
         [Fact]
         public void ValidatedWithBadFieldNameShouldThrowError()

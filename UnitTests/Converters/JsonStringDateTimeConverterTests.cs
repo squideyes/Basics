@@ -24,7 +24,7 @@ using System;
 using System.Text.Json;
 using Xunit;
 
-namespace SquidEyes.UnitTests.Converters
+namespace SquidEyes.UnitTests
 {
     public class JsonStringDateTimeConverterTests
     {
