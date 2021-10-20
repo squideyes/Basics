@@ -31,7 +31,7 @@ public static class NumericExtenders
     public static bool Approximates(this float a, float b) =>
         MathF.Abs(a - b) < FLOAT_EPSILON;
 
-    public static float ConditionalUpdate(float oldValue,
+    public static float Update(this float oldValue,
         float newValue, Func<float, float, bool> canUpdate)
     {
         if (canUpdate(oldValue, newValue))
@@ -40,7 +40,7 @@ public static class NumericExtenders
             return oldValue;
     }
 
-    public static double ConditionalUpdate(double oldValue,
+    public static double Update(this double oldValue,
         double newValue, Func<double, double, bool> canUpdate)
     {
         if (canUpdate(oldValue, newValue))

@@ -22,12 +22,5 @@ namespace SquidEyes.Basics;
 
 public static class ObjectExtenders
 {
-    public static List<T> AsList<T>(this T item, params T[] items)
-    {
-        var list = new List<T>() { item };
-
-        list.AddRange(items);
-
-        return list;
-    }
+    public static List<T> AsList<T>(this T item) => new() { item };
 }

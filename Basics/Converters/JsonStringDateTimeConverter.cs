@@ -34,6 +34,6 @@ public class JsonStringDateTimeConverter : JsonConverter<DateTime>
     public override void Write(Utf8JsonWriter writer,
         DateTime dateTimeValue, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(dateTimeValue.ToString());
+        writer.WriteStringValue(dateTimeValue.ToString("O"));
     }
 }

@@ -18,10 +18,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
 // IN THE SOFTWARE.
 
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace SquidEyes.Basics;
 
-public static class TypeExtenders
+public class JsonStringTimeSpanConverter : JsonConverter<TimeSpan>
 {
-    public static bool IsNullable(this Type type) =>
-        type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
+    public override TimeSpan Read(ref Utf8JsonReader reader,
+        Type typeToConvert, JsonSerializerOptions options)
+    {
+        return TimeSpan.Parse(reader.GetString()!);
+    }
+
+    public override void Write(Utf8JsonWriter writer,
+        TimeSpan timeSpanValue, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(timeSpanValue.ToString("G"));
+    }
 }

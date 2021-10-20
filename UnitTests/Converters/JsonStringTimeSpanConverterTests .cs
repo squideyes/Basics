@@ -26,34 +26,32 @@ using Xunit;
 
 namespace SquidEyes.UnitTests
 {
-    public class JsonStringDateTimeConverterTests
+    public class JsonStringTimeSpanConverterTests
     {
         private class Data
         {
-            public DateTime? DateTime { get; set; }
+            public TimeSpan TimeSpan { get; set; }
         }
 
         [Theory]
         [InlineData("{}", null)]
-        [InlineData("{\"DateTime\":\"2021-01-02T03:04:05.006Z\"}", "01/01/2021 22:04:05.006")]
-        [InlineData("{\"DateTime\":\"2021-01-02T03:04:05.006\"}", "01/02/2021 03:04:05.006")]
-        [InlineData("{\"DateTime\":\"2021-01-02\"}", "01/02/2021")]
+        [InlineData("{\"TimeSpan\":\"1:02:03:05.005\"}", "1:02:03:05.005")]
         public void GoodJsonDeserializesCorrectly(string json, string dateTimeString)
         {
             var options = new JsonSerializerOptions();
 
-            options.Converters.Add(new JsonStringDateTimeConverter());
+            options.Converters.Add(new JsonStringTimeSpanConverter());
 
             var data = JsonSerializer.Deserialize<Data>(json, options);
 
             if (dateTimeString == null)
-                data!.DateTime.Should().BeNull();
+                data!.TimeSpan.Should().Be(default);
             else
-                DateTime.Parse(dateTimeString!).Should().Be(data!.DateTime);
+                TimeSpan.Parse(dateTimeString!).Should().Be(data!.TimeSpan);
         }
 
         [Fact]
-        public void GoodDateTimeSerializesCorrectly()
+        public void GoodDataSerializesCorrectly()
         {
             var options = new JsonSerializerOptions();
 
@@ -61,12 +59,12 @@ namespace SquidEyes.UnitTests
 
             var data = new Data()
             {
-                DateTime = new DateTime(1, 2, 3, 4, 5, 6, 7)
+                TimeSpan = new TimeSpan(1, 2, 3, 4, 5)
             };
 
             var json = JsonSerializer.Serialize(data, options);
 
-            json.Should().Be("{\"DateTime\":\"0001-02-03T04:05:06.0070000\"}");
+            json.Should().Be("{\"TimeSpan\":\"1.02:03:04.0050000\"}");
         }
     }
 }
