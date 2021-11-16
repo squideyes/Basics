@@ -19,7 +19,7 @@ public class StringBuilderExtendersTests
     [Theory]
     [InlineData(',', "1,2")]
     [InlineData('|', "1|2")]
-    public void X(char delimiter, string result2)
+    public void AppendDelimitedWithGoodArgs(char delimiter, string result2)
     {
         var sb = new StringBuilder();
 
@@ -28,5 +28,15 @@ public class StringBuilderExtendersTests
 
         sb.AppendDelimited(2, delimiter);
         sb.ToString().Should().Be(result2);
+    }
+
+    [Fact]
+    public void ToAndFromBase64WithGoodArgs()
+    {
+        var a = "ABC123";
+        var b = a.ToBase64();
+        var c = b.FromBase64();
+
+        c.Should().Be(a);
     }
 }
