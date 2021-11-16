@@ -12,18 +12,18 @@ using System.Text.Json.Serialization;
 
 namespace SquidEyes.Basics;
 
-public class JsonStringMajorMinorConverter : JsonConverter<MajorMinor>
+public class JsonStringDateOnlyConverter : JsonConverter<DateOnly>
 {
-    public override MajorMinor Read(ref Utf8JsonReader reader,
+    public override DateOnly Read(ref Utf8JsonReader reader,
         Type typeToConvert, JsonSerializerOptions options)
     {
-        return MajorMinor.Parse(reader.GetString()!);
+        return DateOnly.Parse(reader.GetString()!);
     }
 
     public override void Write(Utf8JsonWriter writer,
-        MajorMinor majorMinor, JsonSerializerOptions options)
+        DateOnly dateOnlyValue, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(majorMinor.ToString());
+        writer.WriteStringValue(dateOnlyValue.ToString("yyyy'-'MM'-'dd"));
     }
 }
 

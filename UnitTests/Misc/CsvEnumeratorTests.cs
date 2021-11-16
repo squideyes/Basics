@@ -1,44 +1,65 @@
-// Copyright © 2021 by SquidEyes, LLC
+ï»¿// ********************************************************
+// Copyright (C) 2021 Louis S. Berman (louis@squideyes.com) 
 // 
-// Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the “Software”),
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// This file is part of SquidEyes.Basics
 // 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
-// IN THE SOFTWARE.
+// The use of this source code is licensed under the terms 
+// of the MIT License (https://opensource.org/licenses/MIT)
+// ********************************************************
 
 using FluentAssertions;
+using SquidEyes.Basics;
+using System;
+using System.IO;
 using Xunit;
 
-namespace SquidEyes.UnitTests
+namespace SquidEyes.UnitTests;
+
+public class CsvEnumeratorTests
 {
-    public class CsvEnumeratorTests
+    [Theory]
+    [InlineData("0", 1, false, 1)]
+    [InlineData("A,B,C,D", 4, true, 0)]
+    [InlineData("0,1,2,3\n0,1,2,3\n0,1,2,3", 4, false, 3)]
+    [InlineData("A,B,C,D\n0,1,2,3\n0,1,2,3", 4, true, 2)]
+    public void ShouldLoadAndEnumerateWithGoodData(
+        string csv, int expectedFields, bool skipHeader, int expectedRows)
     {
-        [Fact]
-        public void ShouldLoadAndEnumerateExpectedCandles()
+        var rows = 0;
+
+        foreach (var fields in new CsvEnumerator(
+            csv.ToStream(), expectedFields, skipHeader))
         {
-            //int count = 0;
+            for (int i = 0; i < expectedFields; i++)
+                fields[i].Should().Be(i.ToString());
 
-            //foreach (var fields in new CsvEnumerator(
-            //    Properties.Resources.Candles.ToStream(), 6))
-            //{
-            //    count++;
-
-            //    fields.Length.Should().Be(6);
-            //}
-
-            //count.Should().Be(17218);
+            rows++;
         }
+
+        rows.Should().Be(expectedRows);
+    }
+
+    [Theory]
+    [InlineData("0", 0, false)]
+    [InlineData("A\n0", 0, true)]
+    public void ShouldThrowErrorWithBadArgs(
+        string csv, int expectedFields, bool skipHeader)
+    {
+        new CsvEnumerator(csv.ToStream(), expectedFields, skipHeader)
+            .Enumerating(x => x).Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Theory]
+    [InlineData("A", 2, false)]
+    [InlineData("A", 2, true)]
+    [InlineData("0", 2, false)]
+    [InlineData("0,1,2", 2, false)]
+    [InlineData("A,B\n0", 2, true)]
+    [InlineData("A,B\n0,1,2", 2, true)]
+    public void ShouldThrowErrorWithBadData(
+        string csv, int expectedFields, bool skipHeader)
+    {
+        new CsvEnumerator(csv.ToStream(), expectedFields, skipHeader)
+            .Enumerating(x => x).Should().Throw<InvalidDataException>();
     }
 }

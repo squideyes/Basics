@@ -1,4 +1,4 @@
-// ********************************************************
+﻿// ********************************************************
 // Copyright (C) 2021 Louis S. Berman (louis@squideyes.com) 
 // 
 // This file is part of SquidEyes.Basics
@@ -15,44 +15,44 @@ using Xunit;
 
 namespace SquidEyes.UnitTests;
 
-public class JsonStringTimeSpanConverterTests
+public class JsonStringDateOnlyConverterTests
 {
     private class Data
     {
-        public TimeSpan TimeSpan { get; set; }
+        public DateOnly? DateOnly { get; set; }
     }
 
     [Theory]
     [InlineData("{}", null)]
-    [InlineData("{\"TimeSpan\":\"1:02:03:05.005\"}", "1:02:03:05.005")]
-    public void GoodJsonDeserializesCorrectly(string json, string dateTimeString)
+    [InlineData("{\"DateOnly\":\"2021-01-02\"}", "01/02/2021")]
+    public void GoodJsonDeserializesCorrectly(string json, string dateOnlyString)
     {
         var options = new JsonSerializerOptions();
 
-        options.Converters.Add(new JsonStringTimeSpanConverter());
+        options.Converters.Add(new JsonStringDateOnlyConverter());
 
         var data = JsonSerializer.Deserialize<Data>(json, options);
 
-        if (dateTimeString == null)
-            data!.TimeSpan.Should().Be(default);
+        if (dateOnlyString == null)
+            data!.DateOnly.Should().BeNull();
         else
-            TimeSpan.Parse(dateTimeString!).Should().Be(data!.TimeSpan);
+            DateOnly.Parse(dateOnlyString!).Should().BeEquivalentTo(data!.DateOnly);
     }
 
     [Fact]
-    public void GoodDataSerializesCorrectly()
+    public void GoodDateTimeSerializesCorrectly()
     {
         var options = new JsonSerializerOptions();
 
-        options.Converters.Add(new JsonStringDateTimeConverter());
+        options.Converters.Add(new JsonStringDateOnlyConverter());
 
         var data = new Data()
         {
-            TimeSpan = new TimeSpan(1, 2, 3, 4, 5)
+            DateOnly = new DateOnly(1, 2, 3)
         };
 
         var json = JsonSerializer.Serialize(data, options);
 
-        json.Should().Be("{\"TimeSpan\":\"1.02:03:04.0050000\"}");
+        json.Should().Be("{\"DateOnly\":\"0001-02-03\"}");
     }
 }

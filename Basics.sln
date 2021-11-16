@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{3E2A1CD9-5526-4C75-AF7C-2281DB0A3327}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		Basics.sln.licenseheader = Basics.sln.licenseheader
+		Basics.sln.headertext = Basics.sln.headertext
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE.md = LICENSE.md

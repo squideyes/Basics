@@ -4,8 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyName>SquidEyes.$(MSBuildProjectName)</AssemblyName>
-		<RootNamespace>SquidEyes.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>SquidEyes.Basics</AssemblyName>
+		<RootNamespace>SquidEyes.Basics</RootNamespace>
 		<Company>SquidEyes, LLC</Company>
 		<Copyright>Copyright 2021 by SquidEyes, LLC</Copyright>
 		<Description>A collection of basic helper classes, models and extension methods</Description>
