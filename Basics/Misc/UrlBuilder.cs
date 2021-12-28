@@ -8,32 +8,25 @@
 // ********************************************************
 
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace SquidEyes.Basics;
 
-public class HttpHelper
+public class UrlBuilder
 {
     private readonly List<string> segments = new();
     private readonly Dictionary<string, string?> queryParams = new();
 
-    private readonly HttpClient client;
     private readonly Uri baseUri;
 
-    private JsonSerializerOptions? jsonSerializerOptions = null;
-
-    public HttpHelper(HttpClient client, string uriString)
-        : this(client, new Uri(uriString))
+    public UrlBuilder(string uriString)
+        : this(new Uri(uriString))
     {
     }
 
-    public HttpHelper(HttpClient client, Uri baseUri)
+    public UrlBuilder(Uri baseUri)
     {
         if (!baseUri.IsAbsoluteUri)
             throw new ArgumentOutOfRangeException(nameof(baseUri));
-
-        this.client = client;
 
         this.baseUri = new Uri(baseUri.GetLeftPart(UriPartial.Authority));
 
@@ -41,7 +34,7 @@ public class HttpHelper
             .Where(s => !string.IsNullOrWhiteSpace(s)));
     }
 
-    public HttpHelper AppendPathSegment(string segment)
+    public UrlBuilder AppendPathSegment(string segment)
     {
         if (string.IsNullOrWhiteSpace(segment))
             throw new ArgumentOutOfRangeException(nameof(segment));
@@ -54,7 +47,7 @@ public class HttpHelper
         return this;
     }
 
-    public HttpHelper SetQueryParam(string token, string? value = null)
+    public UrlBuilder SetQueryParam(string token, string? value = null)
     {
         if (token.IsEmptyOrWhitespace())
             throw new ArgumentOutOfRangeException(nameof(token));
@@ -98,35 +91,5 @@ public class HttpHelper
         }
 
         return new Uri(sb.ToString());
-    }
-
-    public async Task<string> GetStringAsync() => await client.GetStringAsync(GetUri());
-
-    public async Task<T?> GetJsonAsync<T>(JsonSerializerOptions? options = null)
-        where T : class, new()
-    {
-        if (jsonSerializerOptions == null)
-            jsonSerializerOptions = GetJsonSerializerOptions();
-
-        var json = await GetStringAsync();
-
-        return JsonSerializer.Deserialize<T?>(json, options ?? jsonSerializerOptions);
-    }
-
-    private static JsonSerializerOptions GetJsonSerializerOptions()
-    {
-        var options = new JsonSerializerOptions()
-        {
-            AllowTrailingCommas = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            NumberHandling = JsonNumberHandling.AllowReadingFromString,
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = false
-        };
-
-        options.Converters.Add(new JsonStringEnumConverter());
-
-        return options;
     }
 }
