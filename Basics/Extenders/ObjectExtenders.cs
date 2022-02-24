@@ -12,4 +12,6 @@ namespace SquidEyes.Basics;
 public static class ObjectExtenders
 {
     public static List<T> AsList<T>(this T item) => new() { item };
+
+    public static HashSet<T> AsHashSet<T>(this T item) => new() { item };
 }

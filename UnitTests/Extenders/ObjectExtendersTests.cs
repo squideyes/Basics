@@ -24,4 +24,14 @@ public class ObjectExtendersTests
 
         list.Should().ContainInOrder("AAA");
     }
+
+    [Fact]
+    public void AsHashSetExtenderWorksWithSingleArg()
+    {
+        var list = "AAA".AsHashSet();
+
+        list.Count.Should().Be(1);
+
+        list.Should().ContainInOrder("AAA");
+    }
 }
