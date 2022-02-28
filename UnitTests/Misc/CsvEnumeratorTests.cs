@@ -40,13 +40,13 @@ public class CsvEnumeratorTests
     }
 
     [Theory]
-    [InlineData("0", 0, false)]
-    [InlineData("A\n0", 0, true)]
+    [InlineData("0", 2, false)]
+    [InlineData("A\n0", 3, true)]
     public void ShouldThrowErrorWithBadArgs(
         string csv, int expectedFields, bool skipHeader)
     {
         new CsvEnumerator(csv.ToStream(), expectedFields, skipHeader)
-            .Enumerating(x => x).Should().Throw<ArgumentOutOfRangeException>();
+            .Enumerating(x => x).Should().Throw<InvalidDataException>();
     }
 
     [Theory]
