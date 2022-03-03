@@ -17,6 +17,29 @@ namespace SquidEyes.UnitTests;
 
 public class GenericExtendersTests
 {
+    [Fact]
+    public void ToListOfShouldWork()
+    {
+        const int VALUE = 123;
+
+        var list = VALUE.ToListOf();
+
+        list.Count.Should().Be(1);
+        list.Should().Contain(VALUE);
+    }
+
+    [Fact]
+    public void ToHashSetOfShouldWork()
+    {
+        const int VALUE = 123;
+
+        var hashSet = VALUE.ToHashSetOf();
+
+        hashSet.Count.Should().Be(1);
+        hashSet.Should().Contain(VALUE);
+        hashSet.Contains(VALUE).Should().BeTrue();
+    }
+
     [Theory]
     [InlineData(1, 1, true)]
     [InlineData(1, 2, false)]

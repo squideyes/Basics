@@ -72,10 +72,10 @@ public class IEnumerableExtendersTests
     [InlineData("", false, true, false)]
     [InlineData("1", false, true, true)]
     [InlineData("0", false, true, false)]
-    public void HasItemsNonDefaultWorksWithGoodArgs(string values,
+    public void HasItemsNonDefaultWorksWithGoodArgs(string value,
         bool includeNonDefault, bool nonDefault, bool result)
     {
-        var items = values.ToHashSetOf(v => int.Parse(v));
+        var items = value.ToHashSetOf(v => int.Parse(v));
 
         if (includeNonDefault)
             items.HasItems(nonDefault).Should().Be(result);

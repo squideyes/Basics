@@ -32,6 +32,12 @@ public static class GenericExtenders
             throw new ArgumentOutOfRangeException(fieldName);
     }
 
+    public static List<T> ToListOf<T>(this T value) =>
+        new(new List<T> { value });
+
+    public static HashSet<T> ToHashSetOf<T>(this T value) =>
+        new(new List<T> { value });
+
     public static R Validated<T, R>(this T value,
         string fieldName, Func<T, bool> isValid, Func<T, R> getResult)
     {

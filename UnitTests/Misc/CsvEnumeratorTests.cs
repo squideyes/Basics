@@ -9,7 +9,6 @@
 
 using FluentAssertions;
 using SquidEyes.Basics;
-using System;
 using System.IO;
 using Xunit;
 
