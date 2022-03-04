@@ -24,6 +24,7 @@
 	</ItemGroup>	
 
 	<ItemGroup>
+		<PackageReference Include="Loyc.Math" Version="29.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
 	</ItemGroup>
 

@@ -1,9 +1,9 @@
-﻿// ********************************************************
-// Copyright (C) 2021 Louis S. Berman (louis@squideyes.com) 
-// 
+// ********************************************************
+// Copyright (C) 2021 Louis S. Berman (louis@squideyes.com)
+//
 // This file is part of SquidEyes.Basics
-// 
-// The use of this source code is licensed under the terms 
+//
+// The use of this source code is licensed under the terms
 // of the MIT License (https://opensource.org/licenses/MIT)
 // ********************************************************
 
@@ -26,4 +26,3 @@ public class JsonStringTimeSpanConverter : JsonConverter<TimeSpan>
         writer.WriteStringValue(timeSpanValue.ToString("G"));
     }
 }
-
