@@ -32,7 +32,7 @@ public class MiscExtendersTests
     {
         int count = 0;
 
-        value.DoIfCanDo(canDo, v => { count += v; });
+        value.DoIfCanDo(v => canDo, v => { count += v; });
 
         count.Should().Be(expected);
     }
