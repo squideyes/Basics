@@ -11,6 +11,12 @@ namespace SquidEyes.Basics;
 
 public static class MiscExtenders
 {
+    public static void DoIfCanDo<T>(this T value, bool canDo, Action<T> @do)
+    {
+        if (canDo)
+            @do(value);
+    }
+
     public static R AsFunc<T, R>(this T value, Func<T, R> func) => func(value);
 
     public static void AsAction<T>(this T value, Action<T> action) => action(value);
