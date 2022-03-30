@@ -50,14 +50,22 @@ public static class GenericExtenders
             throw new ArgumentOutOfRangeException(nameof(fieldName));
     }
 
-    public static bool In<T>(this T value, params T[] choices) =>
-        choices.Contains(value);
+    public static bool In<T>(this T value, params T[] values)
+        where T : IEquatable<T>
+    {
+        if (!values.HasItems())
+            throw new ArgumentNullException(nameof(value));
 
-    public static bool In<T>(this T value, IEnumerable<T> choices) =>
-        choices.Contains(value);
+        return values.Contains(value);
+    }
 
-    public static bool In<T>(this T value, HashSet<T> choices) =>
-        choices.Contains(value);
+    public static bool In<T>(this T value, IEnumerable<T> values)
+    {
+        if (!values.HasItems())
+            throw new ArgumentNullException(nameof(value));
+
+        return values.Contains(value);
+    }
 
     public static bool Between<T>(this T value, T minValue, T maxValue, bool inclusive = true)
         where T : IComparable

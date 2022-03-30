@@ -81,22 +81,23 @@ public class GenericExtendersTests
 
     [Theory]
     [InlineData("1,2,3", 2, true)]
-    [InlineData("", 2, false)]
     [InlineData("1,2,3", 4, false)]
     public void InWorksWithIEnumerable(string choices, int value, bool expected) =>
         value.In(ParseChoices(choices)).Should().Be(expected);
 
-    [Theory]
-    [InlineData("1,2,3", 2, true)]
-    [InlineData("1,2,3", 4, false)]
-    public void InWorksWithNonEmptyHashSet(string choices, int value, bool expected) =>
-        value.In(new HashSet<int>(ParseChoices(choices))).Should().Be(expected);
+    [Fact]
+    public void InWorksWithParams() => 2.In(1, 2, 3).Should().BeTrue();
 
     [Fact]
-    public void InWorksWithEmptyHashSet() => 1.In(new HashSet<int>()).Should().Be(false);
+    private void IEnumerableInWithoutValues()
+    {
+        FluentActions.Invoking(() => 1.In(new List<int> { }))
+            .Should().Throw<Exception>();
+    }
 
     [Fact]
-    public void InWorksWithParams() => 1.In(1, 2, 3).Should().BeTrue();
+    private void ParamsInWithoutValues() =>
+        FluentActions.Invoking(() => 1.In()).Should().Throw<Exception>();
 
     [Theory]
     [InlineData(UriKind.Absolute, "ABSOLUTE")]
