@@ -20,6 +20,13 @@ public static class GenericExtenders
     public static bool IsDefaultValue<T>(this T value) =>
         Equals(value, default(T));
 
+    public static T NotNull<T>(this T value, string fieldName)
+    {
+        ArgumentNullException.ThrowIfNull(value, fieldName);
+
+        return value;
+    }
+
     public static T Validated<T>(
         this T value, string fieldName, Func<T, bool> isValid)
     {

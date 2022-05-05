@@ -91,11 +91,9 @@ public static class StringExtenders
         if (!items.HasItems())
             throw new ArgumentOutOfRangeException(nameof(items));
 
-        if (delimiter == null)
-            throw new ArgumentNullException(nameof(delimiter));
+        ArgumentNullException.ThrowIfNull(delimiter, nameof(delimiter));
 
-        if (finalDelimiter == null)
-            throw new ArgumentNullException(nameof(delimiter));
+        ArgumentNullException.ThrowIfNull(finalDelimiter, nameof(finalDelimiter));
 
         var sb = new StringBuilder();
 
