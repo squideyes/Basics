@@ -7,94 +7,84 @@
 // of the MIT License (https://opensource.org/licenses/MIT)
 // ********************************************************
 
+using System.ComponentModel;
+using System.Text;
+using System.Text.Json.Serialization;
+using Vogen;
+
 namespace SquidEyes.Basics;
 
-public struct Moment : IEquatable<Moment>, IComparable<Moment>
+[ValueObject(typeof(TimeOnly), conversions: Conversions.None)]
+[JsonConverter(typeof(JsonStringMomentConverter))]
+[TypeConverter(typeof(MomentTypeConverter))]
+public partial struct Moment : IComparable<Moment>
 {
-    public Moment()
+    public string ToString(bool hourAndMinuteOnly = false)
     {
+        var sb = new StringBuilder();
+
+        sb.Append(Value.Hour.ToString("00"));
+        sb.Append(':');
+        sb.Append(Value.Minute.ToString("00"));
+
+        if (hourAndMinuteOnly)
+            return sb.ToString();
+
+        sb.Append(':');
+        sb.Append(Value.Second.ToString("00"));
+        sb.Append('.');
+        sb.Append(Value.Millisecond.ToString("000"));
+
+        return sb.ToString();
     }
 
-    private Moment(TimeSpan value) => Value = value;
+    public int Hour => Value.Hour;
+    public int Minute => Value.Minute;
+    public int Second => Value.Second;
+    public int Millisecond => Value.Millisecond;
 
-    public int Hours => Value.Hours;
-    public int Minutes => Value.Minutes;
-    public int Seconds => Value.Seconds;
-    public int Milliseconds => Value.Milliseconds;
+    public TimeSpan AsTimeSpan() =>
+        new(0, Hour, Minute, Second, Millisecond);
 
-    internal TimeSpan Value { get; } = TimeSpan.Zero;
-
-    public TimeSpan AsTimeSpan() => Value;
-
-    public TimeOnly AsTimeOnly() => TimeOnly.FromTimeSpan(Value);
-
-    public override string ToString() => ToString(true);
-
-    public string ToString(bool withSecondsAndMilliseconds)
-    {
-        if (withSecondsAndMilliseconds)
-            return Value.ToString("hh\\:mm\\:ss\\.fff");
-        else
-            return Value.ToString("hh\\:mm");
-    }
+    public TimeOnly AsTimeOnly() => Value;
 
     public int CompareTo(Moment other) =>
         Value.CompareTo(other.Value);
 
-    public bool Equals(Moment other) => Value.Equals(other.Value);
+    public static Moment MinValue =>
+        From(TimeOnly.MinValue);
 
-    public override bool Equals(object? other) =>
-        other is Moment moment && Equals(moment);
+    public static Moment MaxValue =>
+        From(TimeOnly.MaxValue);
 
-    public override int GetHashCode() => Value.GetHashCode();
+    public static Moment Parse(string value) =>
+        From(TimeOnly.Parse(value));
 
-    public static Moment From(int hours = 0,
-        int minutes = 0, int seconds = 0, int milliseconds = 0)
+    public static bool IsValid(string value) =>
+        TimeOnly.TryParse(value, out var _);
+
+    public static Moment From(TimeSpan value) =>
+        From(TimeOnly.FromTimeSpan(value));
+
+    public static Moment From(DateTime value) =>
+        From(TimeOnly.FromDateTime(value));
+
+    public static Moment From(int hours, int minutes,
+        int seconds = 0, int milliseconds = 0)
     {
-        return From(new TimeSpan(
-            0, hours, minutes, seconds, milliseconds));
+        return From(new TimeOnly(
+            hours, minutes, seconds, milliseconds));
     }
-
-    public static Moment From(TimeSpan value)
-    {
-        if (value < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        if (value >= TimeSpan.FromDays(1))
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        return new Moment(value);
-    }
-
-    public static Moment Parse(string value)
-    {
-        var timeSpan = TimeSpan.Parse(value);
-
-        if (timeSpan < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        if (timeSpan >= TimeSpan.FromDays(1))
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        return timeSpan.AsFunc(t => 
-            From(t.Hours, t.Minutes, t.Seconds, t.Milliseconds));
-    }
-
-    public static bool operator ==(Moment lhs, Moment rhs) =>
-        lhs.Equals(rhs);
-
-    public static bool operator !=(Moment lhs, Moment rhs) =>
-        !(lhs == rhs);
 
     public static bool operator <(Moment lhs, Moment rhs) =>
-        lhs.CompareTo(rhs) < 0;
+        lhs.Value.CompareTo(rhs.Value) < 0;
 
     public static bool operator <=(Moment lhs, Moment rhs) =>
-        lhs.CompareTo(rhs) <= 0;
+        lhs.Value.CompareTo(rhs.Value) <= 0;
 
     public static bool operator >(Moment lhs, Moment rhs) =>
-        lhs.CompareTo(rhs) > 0;
+        lhs.Value.CompareTo(rhs.Value) > 0;
 
     public static bool operator >=(Moment lhs, Moment rhs) =>
-        lhs.CompareTo(rhs) >= 0;
+        lhs.Value.CompareTo(rhs.Value) >= 0;
 }

@@ -27,6 +27,8 @@ public class MomentTests
             Moment.From(TimeSpan.Parse(value)));
     }
 
+    ////////////////////////////
+
     [Theory]
     [InlineData("00:00:00.000")]
     [InlineData("23:59:00.000")]
@@ -34,45 +36,60 @@ public class MomentTests
     [InlineData("23:59:59.999")]
     public void FromWithGoodArgs(string value)
     {
-        var timeSpan = TimeSpan.Parse(value);
+        var timeOnly = TimeOnly.Parse(value);
 
-        var moment1 = Moment.From(timeSpan);
+        var moment1 = Moment.From(timeOnly);
 
-        moment1.Value.Should().Be(timeSpan);
+        moment1.Value.Should().Be(timeOnly);
 
-        moment1.AsTimeSpan().Should().Be(timeSpan);
+        moment1.AsTimeSpan().Should().Be(TimeSpan.Parse(value));
 
-        moment1.AsTimeOnly().Should().Be(
-            TimeOnly.FromTimeSpan(timeSpan));
+        moment1.AsTimeOnly().Should().Be(timeOnly);
 
-        moment1.Hours.Should().Be(timeSpan.Hours);
-        moment1.Minutes.Should().Be(timeSpan.Minutes);
-        moment1.Seconds.Should().Be(timeSpan.Seconds);
-        moment1.Milliseconds.Should().Be(timeSpan.Milliseconds);
+        moment1.Hour.Should().Be(timeOnly.Hour);
+        moment1.Minute.Should().Be(timeOnly.Minute);
+        moment1.Second.Should().Be(timeOnly.Second);
+        moment1.Millisecond.Should().Be(timeOnly.Millisecond);
 
         moment1.ToString().Should().Be(
-            timeSpan.ToString("hh\\:mm\\:ss\\.fff"));
-
-        moment1.ToString(false).Should().Be(
-            timeSpan.ToString("hh\\:mm"));
+            timeOnly.ToString("HH\\:mm\\:ss\\.fff"));
 
         moment1.ToString(true).Should().Be(
-            timeSpan.ToString("hh\\:mm\\:ss\\.fff"));
+            timeOnly.ToString("HH\\:mm"));
 
-        var moment2 = timeSpan.AsFunc(t => Moment.From(
-            t.Hours, t.Minutes, t.Seconds, t.Milliseconds));
+        moment1.ToString(false).Should().Be(
+            timeOnly.ToString("HH\\:mm\\:ss\\.fff"));
+
+        var moment2 = timeOnly.AsFunc(t => Moment.From(
+            t.Hour, t.Minute, t.Second, t.Millisecond));
 
         moment1.Value.Should().Be(moment2.Value);
         moment1.AsTimeSpan().Should().Be(moment2.AsTimeSpan());
         moment1.AsTimeOnly().Should().Be(moment2.AsTimeOnly());
-        moment1.Hours.Should().Be(moment2.Hours);
-        moment1.Minutes.Should().Be(moment2.Minutes);
-        moment1.Seconds.Should().Be(moment2.Seconds);
-        moment1.Milliseconds.Should().Be(moment2.Milliseconds);
+        moment1.Hour.Should().Be(moment2.Hour);
+        moment1.Minute.Should().Be(moment2.Minute);
+        moment1.Second.Should().Be(moment2.Second);
+        moment1.Millisecond.Should().Be(moment2.Millisecond);
         moment1.ToString().Should().Be(moment2.ToString());
         moment1.ToString(true).Should().Be(moment2.ToString(true));
         moment1.ToString(false).Should().Be(moment2.ToString(false));
     }
+
+    ////////////////////////////
+
+    [Theory]
+    [InlineData("-00:00:00.000", false)]
+    [InlineData(" ", false)]
+    [InlineData("XXX", false)]
+    [InlineData("", false)]
+    [InlineData(null, false)]
+    [InlineData("00:00:00.000", true)]
+    [InlineData("23:59:00.000", true)]
+    [InlineData("23:59:59.000", true)]
+    [InlineData("23:59:59.999", true)]
+    [InlineData("1.00:00:00.00", false)]
+    public void IsValidWithMixedArgs(string value, bool expected) =>
+        Moment.IsValid(value).Should().Be(expected);
 
     ////////////////////////////
 
@@ -95,32 +112,6 @@ public class MomentTests
     }
 
     ////////////////////////////
-
-    [Fact]
-    public void ConstructWithNoArgs() =>
-        new Moment().Value.Should().Be(TimeSpan.Zero);
-
-    ////////////////////////////
-
-    [Fact]
-    public void SetToDefault()
-    {
-        Moment moment = default;
-
-        moment.Value.Should().Be(TimeSpan.Zero);
-    }
-
-    ////////////////////////////
-
-    [Fact]
-    public void GetHashCodeReturnsExpectedResult()
-    {
-        var moment = Moment.From(23, 59, 59, 999);
-
-        moment.GetHashCode().Should().Be(moment.Value.GetHashCode());
-    }
-
-    //////////////////////////////
 
     [Theory]
     [InlineData(true)]
@@ -235,8 +226,9 @@ public class MomentTests
         m1.CompareTo(m2).Should().Be(result);
     }
 
-    //////////////////////////////
+    ////////////////////////////////
 
     private static (Moment, Moment) GetMoments(int lhs, int rhs) =>
-        (Moment.From(lhs), Moment.From(rhs));
+        (Moment.From(new TimeOnly(0, 0, lhs, 0)),
+        Moment.From(new TimeOnly(0, 0, rhs, 0)));
 }
