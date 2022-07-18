@@ -15,14 +15,14 @@ namespace SquidEyes.Basics;
 public class JsonStringDateOnlyConverter : JsonConverter<DateOnly>
 {
     public override DateOnly Read(ref Utf8JsonReader reader,
-        Type typeToConvert, JsonSerializerOptions options)
+        Type _, JsonSerializerOptions options)
     {
         return DateOnly.Parse(reader.GetString()!);
     }
 
     public override void Write(Utf8JsonWriter writer,
-        DateOnly dateOnlyValue, JsonSerializerOptions options)
+        DateOnly value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(dateOnlyValue.ToString("yyyy'-'MM'-'dd"));
+        writer.WriteStringValue(value.ToString("MM/dd/yyyy"));
     }
 }

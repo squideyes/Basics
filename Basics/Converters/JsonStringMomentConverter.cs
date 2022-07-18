@@ -12,17 +12,17 @@ using System.Text.Json.Serialization;
 
 namespace SquidEyes.Basics;
 
-public class JsonStringDateTimeConverter : JsonConverter<DateTime>
+public class JsonStringMomentConverter : JsonConverter<Moment>
 {
-    public override DateTime Read(ref Utf8JsonReader reader,
-        Type _, JsonSerializerOptions options)
+    public override Moment Read(ref Utf8JsonReader reader,
+        Type typeToConvert, JsonSerializerOptions options)
     {
-        return DateTime.Parse(reader.GetString()!);
+        return Moment.Parse(reader.GetString()!);
     }
 
     public override void Write(Utf8JsonWriter writer,
-        DateTime value, JsonSerializerOptions options)
+        Moment value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString("O"));
+        writer.WriteStringValue(value.ToString());
     }
 }

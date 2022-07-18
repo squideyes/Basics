@@ -15,14 +15,14 @@ namespace SquidEyes.Basics;
 public class JsonStringTimeSpanConverter : JsonConverter<TimeSpan>
 {
     public override TimeSpan Read(ref Utf8JsonReader reader,
-        Type typeToConvert, JsonSerializerOptions options)
+        Type _, JsonSerializerOptions options)
     {
         return TimeSpan.Parse(reader.GetString()!);
     }
 
     public override void Write(Utf8JsonWriter writer,
-        TimeSpan timeSpanValue, JsonSerializerOptions options)
+        TimeSpan value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(timeSpanValue.ToString("G"));
+        writer.WriteStringValue(value.ToString("G"));
     }
 }

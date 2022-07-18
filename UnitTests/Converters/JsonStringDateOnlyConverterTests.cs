@@ -53,6 +53,6 @@ public class JsonStringDateOnlyConverterTests
 
         var json = JsonSerializer.Serialize(data, options);
 
-        json.Should().Be("{\"DateOnly\":\"0001-02-03\"}");
+        json.Should().Be("{\"DateOnly\":\"02/03/0001\"}");
     }
 }

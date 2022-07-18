@@ -15,14 +15,14 @@ namespace SquidEyes.Basics;
 public class JsonStringMajorMinorConverter : JsonConverter<MajorMinor>
 {
     public override MajorMinor Read(ref Utf8JsonReader reader,
-        Type typeToConvert, JsonSerializerOptions options)
+        Type _, JsonSerializerOptions options)
     {
         return MajorMinor.Parse(reader.GetString()!);
     }
 
     public override void Write(Utf8JsonWriter writer,
-        MajorMinor majorMinor, JsonSerializerOptions options)
+        MajorMinor value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(majorMinor.ToString());
+        writer.WriteStringValue(value.ToString());
     }
 }
