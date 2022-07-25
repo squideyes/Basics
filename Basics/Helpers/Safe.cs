@@ -1,12 +1,31 @@
-﻿namespace SquidEyes.Basics;
+﻿using System.Text.Json;
+
+namespace SquidEyes.Basics;
 
 public static class Safe
 {
-    public static bool TryParse<T>(Func<T> func, out T value)
+    public static bool TryGetValue<T>(Func<T> func, out T value)
     {
         try
         {
             value = func();
+
+            return true;
+        }
+        catch
+        {
+            value = default!;
+
+            return false;
+        }
+    }
+
+    public static bool TryParseJson<T>(
+        string json, JsonSerializerOptions options, out T? value)
+    {
+        try
+        {
+            value = JsonSerializer.Deserialize<T>(json, options);
 
             return true;
         }
