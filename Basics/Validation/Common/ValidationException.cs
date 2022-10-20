@@ -5,8 +5,10 @@
 
 namespace SquidEyes.Basics;
 
-public static class EnumList
+public class ValidationException : ArgumentException
 {
-    public static List<T> FromAll<T>() =>
-        Enum.GetValues(typeof(T)).Cast<T>().ToList();
+    public ValidationException(string argame, string message)
+        : base($"{message} (Argument: \"{argame}\")")
+    {
+    }
 }

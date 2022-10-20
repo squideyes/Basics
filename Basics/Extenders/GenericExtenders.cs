@@ -1,8 +1,4 @@
 // ********************************************************
-// Copyright (C) 2021 Louis S. Berman (louis@squideyes.com)
-//
-// This file is part of SquidEyes.Basics
-//
 // The use of this source code is licensed under the terms
 // of the MIT License (https://opensource.org/licenses/MIT)
 // ********************************************************
@@ -17,27 +13,8 @@ public static class GenericExtenders
     public static bool HasMaskBits(this int value, int mask) =>
         (value & mask) == mask;
 
-    public static bool IsDefaultValue<T>(this T value) =>
+    public static bool IsDefault<T>(this T value) =>
         Equals(value, default(T));
-
-    public static T NotNull<T>(this T value, string fieldName)
-    {
-        ArgumentNullException.ThrowIfNull(value, fieldName);
-
-        return value;
-    }
-
-    public static T Validated<T>(
-        this T value, string fieldName, Func<T, bool> isValid)
-    {
-        if (string.IsNullOrWhiteSpace(fieldName))
-            throw new ArgumentNullException(nameof(fieldName));
-
-        if (isValid(value))
-            return value;
-        else
-            throw new ArgumentOutOfRangeException(fieldName);
-    }
 
     public static List<T> ToListOf<T>(this T value) =>
         new(new List<T> { value });

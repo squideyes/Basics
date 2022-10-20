@@ -1,8 +1,4 @@
 // ********************************************************
-// Copyright (C) 2021 Louis S. Berman (louis@squideyes.com)
-//
-// This file is part of SquidEyes.Basics
-//
 // The use of this source code is licensed under the terms
 // of the MIT License (https://opensource.org/licenses/MIT)
 // ********************************************************
@@ -59,21 +55,21 @@ public class GenericExtendersTests
     [Fact]
     public void IsDefaultValueWorkForIConvertbleTypes()
     {
-        default(bool).IsDefaultValue().Should().BeTrue();
-        default(byte).IsDefaultValue().Should().BeTrue();
-        default(char).IsDefaultValue().Should().BeTrue();
-        default(short).IsDefaultValue().Should().BeTrue();
-        default(int).IsDefaultValue().Should().BeTrue();
-        default(long).IsDefaultValue().Should().BeTrue();
-        default(sbyte).IsDefaultValue().Should().BeTrue();
-        default(ushort).IsDefaultValue().Should().BeTrue();
-        default(uint).IsDefaultValue().Should().BeTrue();
-        default(ulong).IsDefaultValue().Should().BeTrue();
-        default(DateTime).IsDefaultValue().Should().BeTrue();
-        default(decimal).IsDefaultValue().Should().BeTrue();
-        default(float).IsDefaultValue().Should().BeTrue();
-        default(double).IsDefaultValue().Should().BeTrue();
-        default(UriKind).IsDefaultValue().Should().BeTrue();
+        default(bool).IsDefault().Should().BeTrue();
+        default(byte).IsDefault().Should().BeTrue();
+        default(char).IsDefault().Should().BeTrue();
+        default(short).IsDefault().Should().BeTrue();
+        default(int).IsDefault().Should().BeTrue();
+        default(long).IsDefault().Should().BeTrue();
+        default(sbyte).IsDefault().Should().BeTrue();
+        default(ushort).IsDefault().Should().BeTrue();
+        default(uint).IsDefault().Should().BeTrue();
+        default(ulong).IsDefault().Should().BeTrue();
+        default(DateTime).IsDefault().Should().BeTrue();
+        default(decimal).IsDefault().Should().BeTrue();
+        default(float).IsDefault().Should().BeTrue();
+        default(double).IsDefault().Should().BeTrue();
+        default(UriKind).IsDefault().Should().BeTrue();
     }
 
     private static List<int> ParseChoices(string choices) =>
