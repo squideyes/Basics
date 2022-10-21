@@ -126,26 +126,4 @@ public class GenericExtendersTests
         FluentActions.Invoking(() => 2.Between(3, 2)).Should()
             .Throw<ArgumentOutOfRangeException>();
     }
-
-    [Fact]
-    public void ValidatedWithGoodValueShouldReturnValue() =>
-        2.Validated("Code", v => v == 2).Should().Be(2);
-
-    [Fact]
-    public void ValidatedWithGoodValueShouldReturnConvertedValue() =>
-        2.Validated("Code", v => v == 2, v => v.ToString()).Should().Be("2");
-
-    [Fact]
-    public void ValidatedWithBadFieldNameShouldThrowError()
-    {
-        FluentActions.Invoking(() => 2.Validated("", v => v == 2))
-            .Should().Throw<ArgumentNullException>();
-    }
-
-    [Fact]
-    public void ValidatedWithBadValueShouldThrowError()
-    {
-        FluentActions.Invoking(() => 2.Validated("Code", v => v != 2))
-            .Should().Throw<ArgumentOutOfRangeException>();
-    }
 }

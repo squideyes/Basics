@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace SquidEyes.Basics;
 
-public static class StringExtenders
+public static partial class StringExtenders
 {
     private static readonly Dictionary<string, Regex> regexes = new();
 
@@ -20,31 +20,26 @@ public static class StringExtenders
         if (value.Length == 0)
             return true;
 
-        return value.Any(c => char.IsWhiteSpace(c));
+        return value.Any(char.IsWhiteSpace);
     }
 
-    public static bool IsMatch(this string value,
-        string pattern, RegexOptions options = RegexOptions.Compiled)
+    public static bool IsMatch(
+        this string value, string pattern, RegexOptions options)
     {
-        if (regexes.ContainsKey(pattern))
-            return regexes[pattern].IsMatch(value);
+        if (regexes.TryGetValue(pattern!, out Regex regex))
+            return regex.IsMatch(value);
 
         if (!pattern.IsRegexPattern())
             throw new ArgumentOutOfRangeException(nameof(pattern));
 
-        var regex = new Regex(pattern, options);
+        options |= RegexOptions.Compiled;
+        options |= RegexOptions.NonBacktracking;
+
+        regex = new Regex(pattern, options);
 
         regexes.Add(pattern, regex);
 
         return regex.IsMatch(value);
-    }
-
-    public static bool IsCode(this string value, int maxLength = 8)
-    {
-        if (maxLength <= 0)
-            throw new ArgumentOutOfRangeException(nameof(maxLength));
-
-        return IsMatch(value, $@"^[A-Z][A-Z0-9]{{0,{maxLength - 1}}}$");
     }
 
     public static bool IsRegexPattern(this string value)
@@ -257,7 +252,7 @@ public static class StringExtenders
 
         while ((end = start + margin) < text.Length)
         {
-            while ((text[end]) != ' ' && (end > start))
+            while (text[end] != ' ' && end > start)
                 end -= 1;
 
             if (end == start)
@@ -269,7 +264,7 @@ public static class StringExtenders
         }
 
         if (start < text.Length)
-            lines.Add(text.Substring(start));
+            lines.Add(text[start..]);
 
         return lines;
     }
@@ -298,14 +293,14 @@ public static class StringExtenders
     }
 
     public static bool InChars(this string value, string chars) =>
-        Enumerable.All(value, c => chars.Contains(c));
+        value.All(chars.Contains);
 
     public static List<string> CamelCaseToWords(this string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentOutOfRangeException(nameof(value));
 
-        return Regex.Matches(value, "(^[a-z]+|[A-Z]+(?![a-z])|[A-Z][a-z]+)")
+        return CamelCaseParser().Matches(value)
             .OfType<Match>()
             .Select(m => m.Value)
             .ToList();
@@ -316,4 +311,7 @@ public static class StringExtenders
 
     public static string FromBase64(this string value) =>
         Encoding.UTF8.GetString(Convert.FromBase64String(value));
+
+    [GeneratedRegex("(^[a-z]+|[A-Z]+(?![a-z])|[A-Z][a-z]+)")]
+    private static partial Regex CamelCaseParser();
 }

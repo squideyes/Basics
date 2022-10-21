@@ -22,18 +22,6 @@ public static class GenericExtenders
     public static HashSet<T> ToHashSetOf<T>(this T value) =>
         new(new List<T> { value });
 
-    public static R Validated<T, R>(this T value,
-        string fieldName, Func<T, bool> isValid, Func<T, R> getResult)
-    {
-        if (fieldName.IsEmptyOrWhitespace())
-            throw new ArgumentNullException(nameof(fieldName));
-
-        if (isValid(value))
-            return getResult(value);
-        else
-            throw new ArgumentOutOfRangeException(nameof(fieldName));
-    }
-
     public static bool In<T>(this T value, params T[] values)
         where T : IEquatable<T>
     {
