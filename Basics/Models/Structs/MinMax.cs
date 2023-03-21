@@ -5,7 +5,8 @@
 
 namespace SquidEyes.Basics;
 
-public struct MinMax<T> where T : struct, IComparable<T>
+public struct MinMax<T> 
+    where T : struct, IComparable<T>
 {
     public MinMax(T minValue, T maxValue)
     {

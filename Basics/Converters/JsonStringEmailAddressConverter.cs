@@ -8,16 +8,16 @@ using System.Text.Json.Serialization;
 
 namespace SquidEyes.Basics;
 
-public class JsonStringMomentConverter : JsonConverter<Moment>
+public class JsonStringEmailAddressConverter : JsonConverter<EmailAddress>
 {
-    public override Moment Read(ref Utf8JsonReader reader,
-        Type typeToConvert, JsonSerializerOptions options)
+    public override EmailAddress Read(ref Utf8JsonReader reader,
+        Type _, JsonSerializerOptions options)
     {
-        return Moment.Parse(reader.GetString()!);
+        return EmailAddress.From(reader.GetString()!);
     }
 
     public override void Write(Utf8JsonWriter writer,
-        Moment value, JsonSerializerOptions options)
+        EmailAddress value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.ToString());
     }

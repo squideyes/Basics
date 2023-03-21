@@ -27,13 +27,13 @@ public static class JsonElementExtenders
     public static Uri GetUri(this JsonElement element, string propertyName)
     {
         return element.GetProperty(propertyName).GetString()
-            .AsFunc(v => v == null ? null : new Uri(v))!;
+            .Get(v => v == null ? null : new Uri(v))!;
     }
 
     public static T GetEnumValue<T>(this JsonElement element, string propertyName)
     {
         return element.GetProperty(propertyName).GetString()
-            .AsFunc(v => v == null ? default : v.ToEnumValue<T>())!;
+            .Get(v => v == null ? default : v.ToEnumValue<T>())!;
     }
 
     public static DateTime GetDateTime(this JsonElement element, string propertyName) =>
@@ -42,6 +42,6 @@ public static class JsonElementExtenders
     public static TimeSpan GetTimeSpan(this JsonElement element, string propertyName)
     {
         return element.GetProperty(propertyName).GetString()
-           .AsFunc(v => v == null ? default : TimeSpan.Parse(v));
+           .Get(v => v == null ? default : TimeSpan.Parse(v));
     }
 }
