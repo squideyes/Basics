@@ -5,7 +5,7 @@
 
 using System.Collections;
 
-namespace SquidEyes.Bankroll.Trading;
+namespace SquidEyes.Basics;
 
 public class Series<T> : IEnumerable<SeriesData<T>>
 {

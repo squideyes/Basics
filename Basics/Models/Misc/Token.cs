@@ -7,11 +7,11 @@ using System.Text.RegularExpressions;
 
 namespace SquidEyes.Basics;
 
-public readonly partial struct Name : IEquatable<Name>, IComparable<Name>
+public readonly partial struct Token : IEquatable<Token>, IComparable<Token>
 {
     private static readonly Regex validator = Validator();
 
-    private Name(string value)
+    private Token(string value)
     {
         Value = value;
     }
@@ -20,18 +20,18 @@ public readonly partial struct Name : IEquatable<Name>, IComparable<Name>
 
     public string AsString() => Value;
 
-    public bool Equals(Name other) => Value.Equals(other.Value);
+    public bool Equals(Token other) => Value.Equals(other.Value);
 
-    public int CompareTo(Name other) => Value.CompareTo(other.Value);
+    public int CompareTo(Token other) => Value.CompareTo(other.Value);
 
     public override bool Equals(object? other) =>
-        other is Name name && Equals(name);
+        other is Token token && Equals(token);
 
     public override int GetHashCode() => Value.GetHashCode();
 
     public override string ToString() => Value.ToString();
 
-    public static Name From(string value)
+    public static Token From(string value)
     {
         if (!IsValue(value))
             throw new ArgumentOutOfRangeException(nameof(value));
@@ -42,25 +42,25 @@ public readonly partial struct Name : IEquatable<Name>, IComparable<Name>
     public static bool IsValue(string value) =>
         validator.IsMatch(value);
 
-    public static bool operator ==(Name lhs, Name rhs) =>
+    public static bool operator ==(Token lhs, Token rhs) =>
         lhs.Equals(rhs);
 
-    public static bool operator !=(Name lhs, Name rhs) =>
+    public static bool operator !=(Token lhs, Token rhs) =>
         !(lhs == rhs);
 
-    public static bool operator <(Name lhs, Name rhs) =>
+    public static bool operator <(Token lhs, Token rhs) =>
         lhs.CompareTo(rhs) < 0;
 
-    public static bool operator <=(Name lhs, Name rhs) =>
+    public static bool operator <=(Token lhs, Token rhs) =>
         lhs.CompareTo(rhs) <= 0;
 
-    public static bool operator >(Name lhs, Name rhs) =>
+    public static bool operator >(Token lhs, Token rhs) =>
         lhs.CompareTo(rhs) > 0;
 
-    public static bool operator >=(Name lhs, Name rhs) =>
+    public static bool operator >=(Token lhs, Token rhs) =>
         lhs.CompareTo(rhs) >= 0;
 
-    public static implicit operator Name(string name) => From(name);
+    public static implicit operator Token(string token) => From(token);
 
     [GeneratedRegex("^[A-Z][A-Za-z0-9]{0,23}$", RegexOptions.Compiled)]
     private static partial Regex Validator();

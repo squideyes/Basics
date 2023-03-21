@@ -43,7 +43,7 @@ public static class ArgSetExtenders
             Guid => true,
             int => true,
             long => true,
-            Name => true,
+            Token => true,
             PhoneNumber => true,
             Quantity => true,
             Ratchet => true,

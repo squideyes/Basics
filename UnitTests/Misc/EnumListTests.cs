@@ -5,7 +5,6 @@
 
 using FluentAssertions;
 using SquidEyes.Basics;
-using System;
 using Xunit;
 
 namespace SquidEyes.UnitTests;

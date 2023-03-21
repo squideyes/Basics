@@ -24,7 +24,7 @@ public class ArgSet : IEnumerable<KeyValuePair<Key, Arg>>
     public void Add(Key key, bool value) => AddKV(key, value);
     public void Add(Key key, EmailAddress value) => AddKV(key, value);
     public void Add(Key key, Enum value) => AddKV(key, value);
-    public void Add(Key key, Name value) => AddKV(key, value);
+    public void Add(Key key, Token value) => AddKV(key, value);
     public void Add(Key key, PhoneNumber value) => AddKV(key, value);
     public void Add(Key key, Quantity value) => AddKV(key, value);
     public void Add(Key key, Ratchet value) => AddKV(key, value);

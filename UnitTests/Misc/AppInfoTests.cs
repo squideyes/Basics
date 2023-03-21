@@ -20,9 +20,9 @@ public class AppInfoTests
 
         appInfo.Company.Should().Be("SquidEyes, LLC");
         appInfo.PackageId.Should().Be(assembly.GetName().Name);
-        appInfo.Copyright.Should().Be("Copyright 2021 by SquidEyes, LLC");
+        appInfo.Copyright.Should().Be("Copyright 2023 by SquidEyes, LLC");
         appInfo.Product.Should().Be(assembly.GetName().Name);
-        appInfo.Version.Should().Be(new System.Version(1, 0, 0, 0));
+        appInfo.Version.Should().Be(new Version(1, 0, 0, 0));
         appInfo.Title.Should().Be("SquidEyes.UnitTests v1.0");
     }
 

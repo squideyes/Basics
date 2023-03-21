@@ -25,7 +25,7 @@ public class Key : IEquatable<Key>
         var fields = value.Split(':');
 
         foreach (var field in fields)
-            value.Must().Be(v => Name.IsValue(field));
+            value.Must().Be(v => Token.IsValue(field));
 
         return new Key(value);
     }

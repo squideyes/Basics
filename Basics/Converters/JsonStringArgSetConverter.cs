@@ -83,9 +83,9 @@ public class JsonStringArgSetConverter : JsonConverter<ArgSet>
                 writer.WriteStringValue(
                     ((EmailAddress)value).AsString());
             }
-            else if (type == typeof(Name))
+            else if (type == typeof(Token))
             {
-                writer.WriteStringValue(((Name)value).AsString());
+                writer.WriteStringValue(((Token)value).AsString());
             }
             else if (type == typeof(PhoneNumber))
             {
@@ -177,7 +177,7 @@ public class JsonStringArgSetConverter : JsonConverter<ArgSet>
                 "SquidEyes.Basics.EmailAddress" =>
                     new Arg(EmailAddress.From(reader.GetString()!)),
                 "SquidEyes.Basics.Name" =>
-                    new Arg(Name.From(reader.GetString()!)),
+                    new Arg(Token.From(reader.GetString()!)),
                 "SquidEyes.Basics.PhoneNumber" =>
                     new Arg(PhoneNumber.From(reader.GetString()!)),
                 "SquidEyes.Basics.Quantity" =>

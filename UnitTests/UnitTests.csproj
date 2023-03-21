@@ -3,15 +3,12 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
-
+		<ImplicitUsings>enable</ImplicitUsings>
 		<IsPackable>false</IsPackable>
-
 		<AssemblyName>SquidEyes.$(MSBuildProjectName)</AssemblyName>
-
 		<RootNamespace>SquidEyes.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-
 		<Company>SquidEyes, LLC</Company>
-		<Copyright>Copyright 2021 by SquidEyes, LLC</Copyright>
+		<Copyright>Copyright 2023 by SquidEyes, LLC</Copyright>
 		<Description>A set of unit-tests for the SquidEyes.Basics assembly</Description>
 		<Authors>Louis S. Berman</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>

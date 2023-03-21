@@ -3,7 +3,7 @@
 // of the MIT License (https://opensource.org/licenses/MIT)
 // ********************************************************
 
-namespace SquidEyes.Bankroll.Trading;
+namespace SquidEyes.Basics;
 
 public readonly struct SeriesData<T>
 {
