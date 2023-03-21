@@ -176,7 +176,7 @@ public class JsonStringArgSetConverter : JsonConverter<ArgSet>
             {
                 "SquidEyes.Basics.EmailAddress" =>
                     new Arg(EmailAddress.From(reader.GetString()!)),
-                "SquidEyes.Basics.Name" =>
+                "SquidEyes.Basics.Token" =>
                     new Arg(Token.From(reader.GetString()!)),
                 "SquidEyes.Basics.PhoneNumber" =>
                     new Arg(PhoneNumber.From(reader.GetString()!)),

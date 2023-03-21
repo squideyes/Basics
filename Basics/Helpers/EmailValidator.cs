@@ -18,11 +18,8 @@ public class EmailValidator
 
     public EmailValidator()
     {
-        blockedDomains = Parse(
-            Properties.Resources.BlockedDomains, "//");
-
-        topLevelDomains = Parse(
-            Properties.Resources.TopLevelDomains, "#");
+        blockedDomains = Parse(Domains.Blocked, "//");
+        topLevelDomains = Parse(Domains.TopLevel, "#");
     }
 
     public bool IsValid(string value)

@@ -42,13 +42,13 @@ public class ArgSetTests
             { "Int16", short.MaxValue },
             { "Int32", int.MaxValue },
             { "Int64", long.MaxValue },
-            { "Name", Token.From("SomeName") },
             { "Phone", PhoneNumber.From("215-316-8538") },
             { "Quantity", Quantity.From(123) },
             { "Ratchet", GetRatchet() },
             { "String", "ABC123" },
             { "TimeOnly", TimeOnly.MaxValue },
             { "TimeSpan", TimeSpan.MaxValue },
+            { "Token", Token.From("SomeToken") },
             { "Uri", new Uri("http://cnn.com") }
         };
 
@@ -81,13 +81,13 @@ public class ArgSetTests
         Validate<short>("Int16");
         Validate<int>("Int32");
         Validate<long>("Int64");
-        Validate<Token>("Name");
         Validate<PhoneNumber>("Phone");
         Validate<Quantity>("Quantity");
         Validate<Ratchet>("Ratchet");
         Validate<string>("String");
         Validate<TimeOnly>("TimeOnly");
         Validate<TimeSpan>("TimeSpan");
+        Validate<Token>("Token");
         Validate<Uri>("Uri");
     }
 
