@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SquidEyes.Basics;
 
-internal static class CryptoHelper
+public static class CryptoHelper
 {
     public static string GetHash(string name, string email, string mobile) =>
         GetSha256Hash(name + email + mobile);
