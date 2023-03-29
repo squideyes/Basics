@@ -67,33 +67,32 @@ public class JsonStringArgSetConverter : JsonConverter<ArgSet>
 
             writer.WritePropertyName("value");
 
-            if (type == typeof(Ratchet))
-            {
-                var ratchet = value.GetAs<Ratchet>();
-
-                writer.WriteStartObject();
-                writer.WriteString("Trigger",
-                    ratchet.Trigger.ToString());
-                writer.WriteString("MoveStopTo",
-                    ratchet.MoveStopTo.ToString());
-                writer.WriteEndObject();
-            }
-            else if (type == typeof(EmailAddress))
+            if (type == typeof(ClientId))
             {
                 writer.WriteStringValue(
-                    ((EmailAddress)value).AsString());
+                    ((ClientId)value).AsString());
             }
-            else if (type == typeof(Token))
+            else if (type == typeof(Email))
             {
-                writer.WriteStringValue(((Token)value).AsString());
+                writer.WriteStringValue(
+                    ((Email)value).AsString());
             }
-            else if (type == typeof(PhoneNumber))
+            else if (type == typeof(Phone))
             {
-                writer.WriteStringValue(((PhoneNumber)value).AsString());
+                writer.WriteStringValue(((Phone)value).AsString());
             }
             else if (type == typeof(Quantity))
             {
                 writer.WriteNumberValue(((Quantity)value).AsInt32());
+            }
+            else if (type == typeof(ShortId))
+            {
+                writer.WriteStringValue(
+                    ((ShortId)value).AsString());
+            }
+            else if (type == typeof(Token))
+            {
+                writer.WriteStringValue(((Token)value).AsString());
             }
             else
             {
@@ -112,7 +111,8 @@ public class JsonStringArgSetConverter : JsonConverter<ArgSet>
         if (reader.TokenType != JsonTokenType.StartObject)
             throw new JsonException();
 
-        string ReadStringValue(ref Utf8JsonReader reader, string propertyName)
+        static string ReadStringValue(
+            ref Utf8JsonReader reader, string propertyName)
         {
             reader.Read();
 
@@ -141,64 +141,40 @@ public class JsonStringArgSetConverter : JsonConverter<ArgSet>
         {
             arg = new Arg(Enum.Parse(argType, reader.GetString()!, true));
         }
-        else if (argType == typeof(Ratchet))
-        {
-            if (reader.TokenType != JsonTokenType.StartObject)
-                throw new JsonException();
-
-            static Offset ReadOffset(
-                ref Utf8JsonReader reader, string propertyName)
-            {
-                reader.Read();
-
-                if (reader.GetString() != propertyName)
-                    throw new JsonException();
-
-                reader.Read();
-
-                return Offset.Parse(reader.GetString()!);
-            }
-
-            var trigger = ReadOffset(ref reader, "Trigger");
-
-            var moveStopTo = ReadOffset(ref reader, "MoveStopTo");
-
-            arg = new Arg(Ratchet.From(trigger, moveStopTo));
-
-            reader.Read();
-
-            if (reader.TokenType != JsonTokenType.EndObject)
-                throw new JsonException();
-        }
         else
         {
             arg = argType!.FullName switch
             {
-                "SquidEyes.Basics.EmailAddress" =>
-                    new Arg(EmailAddress.From(reader.GetString()!)),
-                "SquidEyes.Basics.Token" =>
-                    new Arg(Token.From(reader.GetString()!)),
-                "SquidEyes.Basics.PhoneNumber" =>
-                    new Arg(PhoneNumber.From(reader.GetString()!)),
-                "SquidEyes.Basics.Quantity" =>
-                    new Arg(Quantity.From(reader.GetInt32())),
-                "System.Boolean" => new Arg(reader.GetBoolean()),
+                "System.Boolean" 
+                    => new Arg(reader.GetBoolean()),
                 "System.Byte" => new Arg(reader.GetByte()),
+                "SquidEyes.Basics.ClientId" =>
+                    new Arg(ClientId.From(reader.GetString()!)),
                 "System.DateTime" => new Arg(reader.GetDateTime()),
                 "System.DateOnly" =>
                     new Arg(DateOnly.Parse(reader.GetString()!)),
                 "System.Decimal" => new Arg(reader.GetDecimal()),
                 "System.Double" => new Arg(reader.GetDouble()),
+                "SquidEyes.Basics.Email" =>
+                    new Arg(Email.From(reader.GetString()!)),
                 "System.Guid" => new Arg(reader.GetGuid()),
                 "System.Int16" => new Arg(reader.GetInt16()),
                 "System.Int32" => new Arg(reader.GetInt32()),
                 "System.Int64" => new Arg(reader.GetInt64()),
+                "SquidEyes.Basics.Phone" =>
+                    new Arg(Phone.From(reader.GetString()!)),
+                "SquidEyes.Basics.Quantity" =>
+                    new Arg(Quantity.From(reader.GetInt32())),
                 "System.Single" => new Arg(reader.GetSingle()),
+                "SquidEyes.Basics.ShortId" =>
+                    new Arg(ShortId.From(reader.GetString()!)),
                 "System.String" => new Arg(reader.GetString()!),
                 "System.TimeOnly" =>
                     new Arg(TimeOnly.Parse(reader.GetString()!)),
                 "System.TimeSpan" =>
                     new Arg(TimeSpan.Parse(reader.GetString()!)),
+                "SquidEyes.Basics.Token" =>
+                    new Arg(Token.From(reader.GetString()!)),
                 "System.Uri" =>
                     new Arg(new Uri(reader.GetString()!)),
                 _ => throw new JsonException()

@@ -5,12 +5,12 @@
 
 namespace SquidEyes.Basics;
 
-public readonly struct EmailAddress 
-    : IEquatable<EmailAddress>, IComparable<EmailAddress>
+public readonly struct Email 
+    : IEquatable<Email>, IComparable<Email>
 {
     private static readonly EmailValidator validator = new();
 
-    private EmailAddress(string value)
+    private Email(string value)
     {
         Value = value;
     }
@@ -21,42 +21,42 @@ public readonly struct EmailAddress
 
     public override string ToString() => Value;
 
-    public bool Equals(EmailAddress other) => other.Value == Value;
+    public bool Equals(Email other) => other.Value == Value;
 
     public override bool Equals(object? other) =>
-        other is EmailAddress email && Equals(email);
+        other is Email email && Equals(email);
 
     public override int GetHashCode() => Value.GetHashCode();
 
     public static bool IsValue(string value) =>
         validator.IsValid(value);
 
-    public static EmailAddress From(string value)
+    public static Email From(string value)
     {
         if (!IsValue(value))
             throw new ArgumentOutOfRangeException(nameof(value));
 
-        return new EmailAddress(value);
+        return new Email(value);
     }
 
-    public int CompareTo(EmailAddress other) => 
+    public int CompareTo(Email other) => 
         Value.CompareTo(other.Value);
 
-    public static bool operator ==(EmailAddress lhs, EmailAddress rhs) =>
+    public static bool operator ==(Email lhs, Email rhs) =>
         lhs.Equals(rhs);
 
-    public static bool operator !=(EmailAddress lhs, EmailAddress rhs) =>
+    public static bool operator !=(Email lhs, Email rhs) =>
         !(lhs == rhs);
 
-    public static bool operator <(EmailAddress lhs, EmailAddress rhs) =>
+    public static bool operator <(Email lhs, Email rhs) =>
         lhs.CompareTo(rhs) < 0;
 
-    public static bool operator <=(EmailAddress lhs, EmailAddress rhs) =>
+    public static bool operator <=(Email lhs, Email rhs) =>
         lhs.CompareTo(rhs) <= 0;
 
-    public static bool operator >(EmailAddress lhs, EmailAddress rhs) =>
+    public static bool operator >(Email lhs, Email rhs) =>
         lhs.CompareTo(rhs) > 0;
 
-    public static bool operator >=(EmailAddress lhs, EmailAddress rhs) =>
+    public static bool operator >=(Email lhs, Email rhs) =>
         lhs.CompareTo(rhs) >= 0;
 }

@@ -7,13 +7,13 @@ using PhoneNumbers;
 
 namespace SquidEyes.Basics;
 
-public readonly struct PhoneNumber 
-    : IEquatable<PhoneNumber>, IComparable<PhoneNumber>
+public readonly struct Phone 
+    : IEquatable<Phone>, IComparable<Phone>
 {
     private static readonly PhoneNumberUtil util =
         PhoneNumberUtil.GetInstance();
 
-    private PhoneNumber(string value)
+    private Phone(string value)
     {
         Value = value;
     }
@@ -24,10 +24,10 @@ public readonly struct PhoneNumber
 
     public override string ToString() => Value;
 
-    public bool Equals(PhoneNumber other) => other.Value == Value;
+    public bool Equals(Phone other) => other.Value == Value;
 
     public override bool Equals(object? other) =>
-        other is PhoneNumber email && Equals(email);
+        other is Phone email && Equals(email);
 
     public override int GetHashCode() => Value.GetHashCode();
 
@@ -43,32 +43,32 @@ public readonly struct PhoneNumber
         }
     }
 
-    public static PhoneNumber From(string value)
+    public static Phone From(string value)
     {
         if (!IsValue(value))
             throw new ArgumentOutOfRangeException(nameof(value));
 
-        return new PhoneNumber(value);
+        return new Phone(value);
     }
 
-    public int CompareTo(PhoneNumber other) =>
+    public int CompareTo(Phone other) =>
         Value.CompareTo(other.Value);
 
-    public static bool operator ==(PhoneNumber lhs, PhoneNumber rhs) =>
+    public static bool operator ==(Phone lhs, Phone rhs) =>
         lhs.Equals(rhs);
 
-    public static bool operator !=(PhoneNumber lhs, PhoneNumber rhs) =>
+    public static bool operator !=(Phone lhs, Phone rhs) =>
         !(lhs == rhs);
 
-    public static bool operator <(PhoneNumber lhs, PhoneNumber rhs) =>
+    public static bool operator <(Phone lhs, Phone rhs) =>
         lhs.CompareTo(rhs) < 0;
 
-    public static bool operator <=(PhoneNumber lhs, PhoneNumber rhs) =>
+    public static bool operator <=(Phone lhs, Phone rhs) =>
         lhs.CompareTo(rhs) <= 0;
 
-    public static bool operator >(PhoneNumber lhs, PhoneNumber rhs) =>
+    public static bool operator >(Phone lhs, Phone rhs) =>
         lhs.CompareTo(rhs) > 0;
 
-    public static bool operator >=(PhoneNumber lhs, PhoneNumber rhs) =>
+    public static bool operator >=(Phone lhs, Phone rhs) =>
         lhs.CompareTo(rhs) >= 0;
 }

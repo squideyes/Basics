@@ -18,24 +18,25 @@ public class ArgSet : IEnumerable<KeyValuePair<Key, Arg>>
     public void Add<T>(Key key, IParsable<T> value)
         where T : IParsable<T>
     {
-        AddKV(key, value);
+        Add(key, (object)value);
     }
 
-    public void Add(Key key, bool value) => AddKV(key, value);
-    public void Add(Key key, EmailAddress value) => AddKV(key, value);
-    public void Add(Key key, Enum value) => AddKV(key, value);
-    public void Add(Key key, Token value) => AddKV(key, value);
-    public void Add(Key key, PhoneNumber value) => AddKV(key, value);
-    public void Add(Key key, Quantity value) => AddKV(key, value);
-    public void Add(Key key, Ratchet value) => AddKV(key, value);
-    public void Add(Key key, string value) => AddKV(key, value);
-    public void Add(Key key, Uri value) => AddKV(key, value);
+    public void Add(Key key, bool value) => Add(key, (object)value);
+    public void Add(Key key, ClientId value) => Add(key, (object)value);
+    public void Add(Key key, Email value) => Add(key, (object)value);
+    public void Add(Key key, Enum value) => Add(key, (object)value);
+    public void Add(Key key, Phone value) => Add(key, (object)value);
+    public void Add(Key key, Quantity value) => Add(key, (object)value);
+    public void Add(Key key, ShortId value) => Add(key, (object)value);
+    public void Add(Key key, string value) => Add(key, (object)value);
+    public void Add(Key key, Token value) => Add(key, (object)value);
+    public void Add(Key key, Uri value) => Add(key, (object)value);
 
     public T Get<T>(Key key) => dict[key].Value.GetAs<T>();
     
     internal void Add(Key key, Arg value) => dict.Add(key, value);
 
-    private void AddKV(Key key, object value)
+    private void Add(Key key, object value)
     {
         key.MayNot().BeDefault();
         value.Must().Be(v => v.IsArgType());

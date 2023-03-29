@@ -31,20 +31,21 @@ public class ArgSetTests
         {
             { "Boolean", true },
             { "Byte", byte.MaxValue },
+            { "ClientId", ClientId.Next() },
             { "DateOnly", DateOnly.MaxValue },
             { "DateTime", DateTime.MaxValue },
             { "Decimal", decimal.MaxValue },
             { "Double", double.MaxValue },
-            { "Email", EmailAddress.From("some@dude.com")},
+            { "Email", Email.From("some@dude.com")},
             { "Enum", UriKind.Absolute },
             { "Float", float.MaxValue },
             { "Guid", Guid.NewGuid() },
             { "Int16", short.MaxValue },
             { "Int32", int.MaxValue },
             { "Int64", long.MaxValue },
-            { "Phone", PhoneNumber.From("215-316-8538") },
+            { "Phone", Phone.From("215-316-8538") },
             { "Quantity", Quantity.From(123) },
-            { "Ratchet", GetRatchet() },
+            { "ShortId", ShortId.Next() },
             { "String", "ABC123" },
             { "TimeOnly", TimeOnly.MaxValue },
             { "TimeSpan", TimeSpan.MaxValue },
@@ -70,32 +71,25 @@ public class ArgSetTests
 
         Validate<bool>("Boolean");
         Validate<byte>("Byte");
+        Validate<ClientId>("ClientId");
         Validate<DateOnly>("DateOnly");
         Validate<DateTime>("DateTime");
         Validate<decimal>("Decimal");
         Validate<double>("Double");
-        Validate<EmailAddress>("Email");
+        Validate<Email>("Email");
         Validate<UriKind>("Enum");
         Validate<float>("Float");
         Validate<Guid>("Guid");
         Validate<short>("Int16");
         Validate<int>("Int32");
         Validate<long>("Int64");
-        Validate<PhoneNumber>("Phone");
+        Validate<Phone>("Phone");
         Validate<Quantity>("Quantity");
-        Validate<Ratchet>("Ratchet");
+        Validate<ShortId>("ShortId");
         Validate<string>("String");
         Validate<TimeOnly>("TimeOnly");
         Validate<TimeSpan>("TimeSpan");
         Validate<Token>("Token");
         Validate<Uri>("Uri");
-    }
-
-    private static Ratchet GetRatchet()
-    {
-        var trigger = Offset.From(Vector.Plus, 3.0f);
-        var moveStopTo = Offset.From(Vector.Minus, 0.25f);
-
-        return Ratchet.From(trigger, moveStopTo);
     }
 }
